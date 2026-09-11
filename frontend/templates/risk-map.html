@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CodeNova | Risk Map</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Leaflet Map -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #080b12;
+            color: white;
+        }
+
+        .map-page {
+            padding: 30px;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #8e98a8;
+        }
+
+        .map-layout {
+            display: grid;
+            grid-template-columns: 1fr 330px;
+            gap: 20px;
+        }
+
+        .map-card {
+            background: #10151f;
+            border: 1px solid #252c38;
+            border-radius: 18px;
+            padding: 15px;
+        }
+
+        #riskMap {
+            height: 620px;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .panel {
+            background: #10151f;
+            border: 1px solid #252c38;
+            border-radius: 18px;
+            padding: 22px;
+        }
+
+        .panel h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .status {
+            padding: 18px;
+            border-radius: 14px;
+            background: rgba(255, 60, 60, 0.12);
+            border: 1px solid rgba(255, 60, 60, 0.35);
+            margin-bottom: 20px;
+        }
+
+        .status strong {
+            color: #ff5252;
+            font-size: 28px;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid #252c38;
+        }
+
+        .metric span:first-child {
+            color: #8993a3;
+        }
+
+        .metric span:last-child {
+            font-weight: bold;
+        }
+
+        .action-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(80, 120, 255, 0.10);
+            border: 1px solid rgba(80, 120, 255, 0.25);
+        }
+
+        .action-box h3 {
+            margin-top: 0;
+            color: #7fa2ff;
+        }
+
+        .legend {
+            display: grid;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+        }
+
+        .critical { background: #ff3030; }
+        .high { background: #ff8c32; }
+        .moderate { background: #ffd43b; }
+        .low { background: #35c96f; }
+
+        .map-label {
+            background: #111722;
+            color: white;
+            border: 1px solid #394150;
+            padding: 5px 9px;
+            border-radius: 8px;
+        }
+
+        @media(max-width: 900px) {
+            .map-layout {
+                grid-template-columns: 1fr;
+            }
+
+            #riskMap {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="map-page">
+
+    <div class="page-header">
+        <h1>🗺️ Landslide Risk Map</h1>
+        <p>
+            AI-assisted spatial monitoring of landslide-prone regions
+            across Northeast India
+        </p>
+    </div>
+
+    <div class="map-layout">
+
+        <!-- MAP -->
+        <div class="map-card">
+            <div id="riskMap"></div>
+        </div>
+
+        <!-- INFORMATION PANEL -->
+        <div class="panel">
+
+            <h2>Selected Zone</h2>
+
+            <div class="status">
+                <div>Dima Hasao</div>
+                <strong>84%</strong>
+                <div>CRITICAL RISK</div>
+            </div>
+
+            <div class="metric">
+                <span>🌧️ Rainfall</span>
+                <span>220 mm</span>
+            </div>
+
+            <div class="metric">
+                <span>💧 Soil Moisture</span>
+                <span>82%</span>
+            </div>
+
+            <div class="metric">
+                <span>⛰️ Slope</span>
+                <span>38°</span>
+            </div>
+
+            <div class="metric">
+                <span>🏘️ Villages at Risk</span>
+                <span>2</span>
+            </div>
+
+            <div class="metric">
+                <span>🛣️ Road Segments</span>
+                <span>1</span>
+            </div>
+
+            <div class="action-box">
+                <h3>Risk → Impact → Action</h3>
+
+                <p>
+                    <b>Impact:</b><br>
+                    2 villages and a major road segment may be affected.
+                </p>
+
+                <p>
+                    <b>Recommended Action:</b><br>
+                    Issue warning and prioritize field inspection.
+                </p>
+            </div>
+
+            <div class="legend">
+
+                <h3>Risk Levels</h3>
+
+                <div class="legend-item">
+                    <span class="dot critical"></span>
+                    Critical
+                </div>
+
+                <div class="legend-item">
+                    <span class="dot high"></span>
+                    High
+                </div>
+
+                <div class="legend-item">
+                    <span class="dot moderate"></span>
+                    Moderate
+                </div>
+
+                <div class="legend-item">
+                    <span class="dot low"></span>
+                    Low
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Leaflet -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+    // Create map centered on Northeast India
+    const map = L.map('riskMap').setView([25.5, 93.5], 6);
+
+    // OpenStreetMap tiles
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            attribution: '&copy; OpenStreetMap contributors'
+        }
+    ).addTo(map);
+
+
+    // Risk zones
+    const locations = [
+
+        {
+            name: "Dima Hasao",
+            lat: 25.5,
+            lng: 93.0,
+            risk: 84,
+            level: "CRITICAL",
+            rainfall: "220 mm"
+        },
+
+        {
+            name: "East Khasi Hills",
+            lat: 25.3,
+            lng: 91.8,
+            risk: 72,
+            level: "HIGH",
+            rainfall: "185 mm"
+        },
+
+        {
+            name: "Nagaland Hills",
+            lat: 26.1,
+            lng: 94.1,
+            risk: 67,
+            level: "HIGH",
+            rainfall: "170 mm"
+        },
+
+        {
+            name: "Mizoram Hills",
+            lat: 23.7,
+            lng: 92.7,
+            risk: 54,
+            level: "MODERATE",
+            rainfall: "145 mm"
+        }
+
+    ];
+
+
+    // Function for risk color
+    function getColor(risk) {
+
+        if (risk >= 80)
+            return "#ff3030";
+
+        if (risk >= 65)
+            return "#ff8c32";
+
+        if (risk >= 40)
+            return "#ffd43b";
+
+        return "#35c96f";
+    }
+
+
+    // Add risk markers
+    locations.forEach(location => {
+
+        const color = getColor(location.risk);
+
+        const marker = L.circleMarker(
+            [location.lat, location.lng],
+            {
+                radius: 15,
+                fillColor: color,
+                color: "#ffffff",
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.75
+            }
+        ).addTo(map);
+
+
+        marker.bindPopup(`
+            <div style="min-width:180px">
+
+                <h3>${location.name}</h3>
+
+                <b>Risk Score:</b>
+                ${location.risk}%<br>
+
+                <b>Status:</b>
+                ${location.level}<br>
+
+                <b>Rainfall:</b>
+                ${location.rainfall}
+
+            </div>
+        `);
+
+    });
+
+</script>
+
+</body>
+</html>
