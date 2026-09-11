@@ -1,285 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>CodeNova | Alert Center</title>
 
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/alert-center.css') }}">
+          href="{{ url_for('static', filename='css/style.css') }}">
 
+    <style>
+
+        .alerts-page {
+            padding: 30px;
+        }
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            margin: 0 0 8px;
+        }
+
+        .page-header p {
+            color: #8d96a6;
+            margin: 0;
+        }
+
+        /* TOP STATS */
+
+        .alert-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #10151f;
+            border: 1px solid #252c38;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .stat-title {
+            color: #8993a3;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            font-size: 30px;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .critical-value {
+            color: #ff4d4d;
+        }
+
+        .warning-value {
+            color: #ff9f43;
+        }
+
+        .safe-value {
+            color: #42d77d;
+        }
+
+        /* MAIN GRID */
+
+        .alert-layout {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 22px;
+        }
+
+        .alerts-card,
+        .intelligence-card {
+            background: #10151f;
+            border: 1px solid #252c38;
+            border-radius: 18px;
+            padding: 22px;
+        }
+
+        .card-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .live {
+            color: #42d77d;
+            font-size: 13px;
+        }
+
+        /* ALERT ITEM */
+
+        .alert-item {
+            display: grid;
+            grid-template-columns: 48px 1fr auto;
+            gap: 15px;
+            padding: 18px 0;
+            border-bottom: 1px solid #252c38;
+        }
+
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+
+        .alert-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .critical-icon {
+            background: rgba(255, 60, 60, 0.14);
+        }
+
+        .high-icon {
+            background: rgba(255, 159, 67, 0.14);
+        }
+
+        .moderate-icon {
+            background: rgba(255, 210, 70, 0.14);
+        }
+
+        .alert-info h3 {
+            margin: 0 0 6px;
+            font-size: 16px;
+        }
+
+        .alert-info p {
+            margin: 0;
+            color: #8d96a6;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .alert-time {
+            color: #687386;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 7px;
+        }
+
+        .critical-badge {
+            background: rgba(255, 60, 60, 0.15);
+            color: #ff5555;
+        }
+
+        .high-badge {
+            background: rgba(255, 159, 67, 0.15);
+            color: #ff9f43;
+        }
+
+        .moderate-badge {
+            background: rgba(255, 210, 70, 0.15);
+            color: #ffd43b;
+        }
+
+        /* INTELLIGENCE */
+
+        .risk-summary {
+            padding: 20px;
+            border-radius: 14px;
+            background: rgba(255, 60, 60, 0.08);
+            border: 1px solid rgba(255, 60, 60, 0.25);
+            margin-bottom: 20px;
+        }
+
+        .risk-summary small {
+            color: #9ca5b5;
+        }
+
+        .risk-score {
+            font-size: 42px;
+            font-weight: 800;
+            color: #ff4d4d;
+            margin: 5px 0;
+        }
+
+        .intelligence-section {
+            margin-top: 20px;
+        }
+
+        .intelligence-section h3 {
+            font-size: 14px;
+            color: #8d96a6;
+            margin-bottom: 8px;
+        }
+
+        .intelligence-section p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .action-button {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 13px;
+            margin-top: 22px;
+            background: #ff4d4d;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            opacity: 0.9;
+        }
+
+        /* FILTERS */
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter {
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 1px solid #303846;
+            color: #9ba5b5;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .filter.active {
+            background: #252d3a;
+            color: white;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 950px) {
+
+            .alert-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .alert-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+
+            .alerts-page {
+                padding: 18px;
+            }
+
+            .alert-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .alert-item {
+                grid-template-columns: 42px 1fr;
+            }
+
+            .alert-time {
+                grid-column: 2;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
 
-<!-- ================= SIDEBAR ================= -->
-
-<aside class="sidebar">
-
-    <div class="brand">
-
-        <div class="brand-logo">
-            C
-        </div>
-
-        <div>
-            <h2>CodeNova</h2>
-            <p>DISASTER INTELLIGENCE</p>
-        </div>
-
-    </div>
-
-
-    <nav class="navigation">
-
-        <a href="/" class="nav-item">
-            <span>▣</span>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="/risk-analysis" class="nav-item">
-            <span>◉</span>
-            <span>Risk Analysis</span>
-        </a>
-
-        <a href="#" class="nav-item">
-            <span>⌖</span>
-            <span>Risk Map</span>
-        </a>
-
-        <a href="/alert-center" class="nav-item active">
-            <span>⚠</span>
-            <span>Alert Center</span>
-
-            <b id="alertCount">3</b>
-        </a>
-
-        <a href="#" class="nav-item">
-            <span>▥</span>
-            <span>Analytics</span>
-        </a>
-
-        <a href="#" class="nav-item">
-            <span>◌</span>
-            <span>Field Teams</span>
-        </a>
-
-    </nav>
-
-
-    <div class="sidebar-bottom">
-
-        <div class="system-status">
-
-            <div class="online-dot"></div>
-
-            <div>
-                <strong>System Online</strong>
-                <small>Monitoring active</small>
-            </div>
-
-        </div>
-
-        <div class="prototype">
-            DEMO PROTOTYPE
-        </div>
-
-    </div>
-
-</aside>
-
-
-<!-- ================= MAIN ================= -->
-
-<main class="main">
-
+<div class="alerts-page">
 
     <!-- HEADER -->
 
-    <header class="header">
+    <div class="page-header">
 
-        <div>
+        <h1>⚠ Alert Center</h1>
 
-            <div class="top-label">
-                DISASTER MANAGEMENT • NER
-            </div>
+        <p>
+            Real-time disaster alerts and response intelligence
+        </p>
 
-            <h1>Alert Center</h1>
+    </div>
 
-            <p class="subtitle">
-                Real-time disaster alerts and response intelligence
-            </p>
 
+    <!-- STAT CARDS -->
+
+    <div class="alert-stats">
+
+        <div class="stat-card">
+            <div class="stat-title">Active Alerts</div>
+            <div class="stat-value critical-value">03</div>
         </div>
 
-
-        <div class="header-right">
-
-            <div class="live">
-                <span></span>
-                LIVE MONITORING
-            </div>
-
-            <div class="updated">
-                Last updated
-                <strong id="lastUpdated">00:28</strong>
-            </div>
-
+        <div class="stat-card">
+            <div class="stat-title">Critical Alerts</div>
+            <div class="stat-value critical-value">01</div>
         </div>
 
-    </header>
-
-
-    <!-- ================= SUMMARY ================= -->
-
-    <section class="summary">
-
-        <div class="summary-card">
-
-            <div class="summary-title">
-                ACTIVE ALERTS
-
-                <span class="summary-icon red">
-                    !
-                </span>
-            </div>
-
-            <h2 id="activeAlerts">03</h2>
-
-            <p class="red-text">
-                Requires attention
-            </p>
-
+        <div class="stat-card">
+            <div class="stat-title">High Priority</div>
+            <div class="stat-value warning-value">02</div>
         </div>
 
-
-        <div class="summary-card">
-
-            <div class="summary-title">
-                CRITICAL
-
-                <span class="summary-icon red">
-                    ⚠
-                </span>
-            </div>
-
-            <h2 id="criticalAlerts">
-                01
-            </h2>
-
-            <p class="red-text">
-                Immediate response
-            </p>
-
+        <div class="stat-card">
+            <div class="stat-title">Resolved Today</div>
+            <div class="stat-value safe-value">07</div>
         </div>
 
-
-        <div class="summary-card">
-
-            <div class="summary-title">
-                HIGH RISK
-
-                <span class="summary-icon orange">
-                    ◆
-                </span>
-            </div>
-
-            <h2 id="highAlerts">
-                02
-            </h2>
-
-            <p class="orange-text">
-                Requires monitoring
-            </p>
-
-        </div>
+    </div>
 
 
-        <div class="summary-card">
+    <!-- FILTER -->
 
-            <div class="summary-title">
-                AUTHORITIES
+    <div class="filters">
 
-                <span class="summary-icon green">
-                    ✓
-                </span>
-            </div>
-
-            <h2>
-                03
-            </h2>
-
-            <p class="green-text">
-                Notified
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= TOOLBAR ================= -->
-
-    <section class="toolbar">
-
-        <div class="filters">
-
-            <button class="filter active"
-                    data-filter="all">
-                ALL
-            </button>
-
-            <button class="filter"
-                    data-filter="critical">
-                CRITICAL
-            </button>
-
-            <button class="filter"
-                    data-filter="high">
-                HIGH
-            </button>
-
-        </div>
-
-
-        <button class="refresh"
-                id="refreshAlerts">
-
-            ↻ REFRESH ALERTS
-
+        <button class="filter active" onclick="filterAlerts('all')">
+            All
         </button>
 
-    </section>
+        <button class="filter" onclick="filterAlerts('critical')">
+            Critical
+        </button>
+
+        <button class="filter" onclick="filterAlerts('high')">
+            High
+        </button>
+
+        <button class="filter" onclick="filterAlerts('moderate')">
+            Moderate
+        </button>
+
+    </div>
 
 
-    <!-- ================= CONTENT ================= -->
+    <!-- MAIN CONTENT -->
 
-    <section class="content">
+    <div class="alert-layout">
 
 
-        <!-- LEFT : ALERT LIST -->
+        <!-- ALERT LIST -->
 
-        <div class="panel">
+        <div class="alerts-card">
 
-            <div class="panel-heading">
+            <div class="card-title">
 
-                <div>
+                <h2>Active Alerts</h2>
 
-                    <p>REAL-TIME ALERT FEED</p>
-
-                    <h2>
-                        Active Disaster Alerts
-                    </h2>
-
-                </div>
-
-                <span class="active-label">
-                    3 ACTIVE
+                <span class="live">
+                    ● LIVE MONITORING
                 </span>
 
             </div>
@@ -287,409 +378,240 @@
 
             <!-- ALERT 1 -->
 
-            <article class="alert-card"
-                     data-level="critical"
-                     data-id="1">
+            <div class="alert-item" data-level="critical">
 
-                <div class="alert-header">
+                <div class="alert-icon critical-icon">
+                    🚨
+                </div>
 
-                    <span class="alert-dot critical-dot"></span>
+                <div class="alert-info">
 
-                    <div class="alert-title">
+                    <h3>Dima Hasao — Critical Landslide Risk</h3>
 
-                        <h3>
-                            Landslide Risk Critical
-                        </h3>
+                    <p>
+                        Risk score reached 84% following heavy rainfall
+                        and increased soil moisture.
+                    </p>
 
-                        <p>
-                            Dima Hasao, Assam
-                        </p>
-
-                        <small>
-                            2 minutes ago
-                        </small>
-
-                    </div>
-
-                    <span class="badge critical">
+                    <span class="badge critical-badge">
                         CRITICAL
                     </span>
 
                 </div>
 
-
-                <div class="alert-data">
-
-                    <div>
-                        <span>RAINFALL</span>
-                        <strong>220 mm</strong>
-                    </div>
-
-                    <div>
-                        <span>SOIL MOISTURE</span>
-                        <strong>82%</strong>
-                    </div>
-
-                    <div>
-                        <span>SLOPE</span>
-                        <strong>38°</strong>
-                    </div>
-
-                    <div>
-                        <span>VILLAGES</span>
-                        <strong>2</strong>
-                    </div>
-
+                <div class="alert-time">
+                    8 min ago
                 </div>
 
-
-                <div class="actions">
-
-                    <button class="view">
-                        VIEW DETAILS
-                    </button>
-
-                    <button class="ack">
-                        ACKNOWLEDGE
-                    </button>
-
-                </div>
-
-            </article>
+            </div>
 
 
             <!-- ALERT 2 -->
 
-            <article class="alert-card"
-                     data-level="high"
-                     data-id="2">
+            <div class="alert-item" data-level="high">
 
-                <div class="alert-header">
+                <div class="alert-icon high-icon">
+                    ⚠️
+                </div>
 
-                    <span class="alert-dot high-dot"></span>
+                <div class="alert-info">
 
-                    <div class="alert-title">
+                    <h3>East Khasi Hills — Rising Risk</h3>
 
-                        <h3>
-                            Rainfall Threshold Exceeded
-                        </h3>
+                    <p>
+                        Rainfall increased by 18% in the last monitoring
+                        period. Risk score is now 72%.
+                    </p>
 
-                        <p>
-                            East Khasi Hills, Meghalaya
-                        </p>
-
-                        <small>
-                            8 minutes ago
-                        </small>
-
-                    </div>
-
-                    <span class="badge high">
+                    <span class="badge high-badge">
                         HIGH
                     </span>
 
                 </div>
 
-
-                <div class="alert-data">
-
-                    <div>
-                        <span>RAINFALL</span>
-                        <strong>180 mm</strong>
-                    </div>
-
-                    <div>
-                        <span>SOIL MOISTURE</span>
-                        <strong>70%</strong>
-                    </div>
-
-                    <div>
-                        <span>SLOPE</span>
-                        <strong>31°</strong>
-                    </div>
-
-                    <div>
-                        <span>VILLAGES</span>
-                        <strong>5</strong>
-                    </div>
-
+                <div class="alert-time">
+                    21 min ago
                 </div>
 
-
-                <div class="actions">
-
-                    <button class="view">
-                        VIEW DETAILS
-                    </button>
-
-                    <button class="ack">
-                        ACKNOWLEDGE
-                    </button>
-
-                </div>
-
-            </article>
+            </div>
 
 
             <!-- ALERT 3 -->
 
-            <article class="alert-card"
-                     data-level="high"
-                     data-id="3">
+            <div class="alert-item" data-level="high">
 
-                <div class="alert-header">
+                <div class="alert-icon high-icon">
+                    ⚠️
+                </div>
 
-                    <span class="alert-dot high-dot"></span>
+                <div class="alert-info">
 
-                    <div class="alert-title">
+                    <h3>Nagaland Hills — High Risk</h3>
 
-                        <h3>
-                            Increased Soil Moisture Detected
-                        </h3>
+                    <p>
+                        Saturated soil conditions detected near
+                        vulnerable slope zones.
+                    </p>
 
-                        <p>
-                            Nagaland Hills, Nagaland
-                        </p>
-
-                        <small>
-                            14 minutes ago
-                        </small>
-
-                    </div>
-
-                    <span class="badge high">
+                    <span class="badge high-badge">
                         HIGH
                     </span>
 
                 </div>
 
+                <div class="alert-time">
+                    36 min ago
+                </div>
 
-                <div class="alert-data">
+            </div>
 
-                    <div>
-                        <span>RAINFALL</span>
-                        <strong>165 mm</strong>
-                    </div>
 
-                    <div>
-                        <span>SOIL MOISTURE</span>
-                        <strong>64%</strong>
-                    </div>
+            <!-- ALERT 4 -->
 
-                    <div>
-                        <span>SLOPE</span>
-                        <strong>29°</strong>
-                    </div>
+            <div class="alert-item" data-level="moderate">
 
-                    <div>
-                        <span>VILLAGES</span>
-                        <strong>3</strong>
-                    </div>
+                <div class="alert-icon moderate-icon">
+                    🌧️
+                </div>
+
+                <div class="alert-info">
+
+                    <h3>Mizoram Hills — Moderate Risk</h3>
+
+                    <p>
+                        Increased rainfall detected. Continuous
+                        monitoring recommended.
+                    </p>
+
+                    <span class="badge moderate-badge">
+                        MODERATE
+                    </span>
 
                 </div>
 
-
-                <div class="actions">
-
-                    <button class="view">
-                        VIEW DETAILS
-                    </button>
-
-                    <button class="ack">
-                        ACKNOWLEDGE
-                    </button>
-
+                <div class="alert-time">
+                    1 hr ago
                 </div>
 
-            </article>
+            </div>
 
         </div>
 
 
-        <!-- RIGHT : SELECTED ALERT -->
+        <!-- AI INTELLIGENCE -->
 
-        <aside class="panel details-panel">
+        <div class="intelligence-card">
 
-            <div class="panel-heading">
+            <div class="card-title">
 
-                <div>
-
-                    <p>SELECTED ALERT</p>
-
-                    <h2 id="selectedLocation">
-                        Dima Hasao
-                    </h2>
-
-                </div>
-
-                <span class="active-label">
-                    CRITICAL
-                </span>
+                <h2>AI Response Intelligence</h2>
 
             </div>
 
 
-            <!-- RISK SCORE -->
+            <div class="risk-summary">
 
-            <div class="risk-area">
+                <small>Highest Current Risk</small>
 
-                <div class="risk-circle">
-
-                    <div>
-
-                        <strong>
-                            84
-                        </strong>
-
-                        <span>%</span>
-
-                    </div>
-
+                <div class="risk-score">
+                    84%
                 </div>
 
-
-                <div>
-
-                    <h3>
-                        Landslide Risk Score
-                    </h3>
-
-                    <p>
-                        Multiple environmental indicators
-                        indicate elevated landslide probability.
-                    </p>
-
-                </div>
+                <strong>Dima Hasao</strong>
 
             </div>
 
 
-            <!-- INDICATORS -->
+            <div class="intelligence-section">
 
-            <div class="section-label">
-                ENVIRONMENTAL INDICATORS
-            </div>
+                <h3>IMPACT</h3>
 
-
-            <div class="indicators">
-
-                <div class="indicator">
-
-                    <span>🌧 Rainfall</span>
-
-                    <strong>220 mm</strong>
-
-                </div>
-
-
-                <div class="indicator">
-
-                    <span>💧 Soil Moisture</span>
-
-                    <strong>82%</strong>
-
-                </div>
-
-
-                <div class="indicator">
-
-                    <span>▲ Slope</span>
-
-                    <strong>38°</strong>
-
-                </div>
-
-
-                <div class="indicator">
-
-                    <span>▣ Historical Events</span>
-
-                    <strong>HIGH</strong>
-
-                </div>
+                <p>
+                    2 villages and 1 road segment may be exposed
+                    to landslide activity.
+                </p>
 
             </div>
 
 
-            <!-- RESPONSE -->
+            <div class="intelligence-section">
 
-            <div class="response">
+                <h3>RECOMMENDED ACTION</h3>
 
-                <h3>
-                    ⚠ Recommended Response
-                </h3>
-
-                <ul>
-
-                    <li>
-                        Alert nearby communities
-                    </li>
-
-                    <li>
-                        Monitor slope movement continuously
-                    </li>
-
-                    <li>
-                        Keep evacuation routes ready
-                    </li>
-
-                    <li>
-                        Deploy field response team
-                    </li>
-
-                </ul>
+                <p>
+                    Issue early warning, prioritize field inspection
+                    and prepare evacuation support if conditions worsen.
+                </p>
 
             </div>
 
 
-            <!-- AUTHORITY -->
+            <div class="intelligence-section">
 
-            <div class="authority">
+                <h3>RESPONSE PRIORITY</h3>
 
-                <div class="check">
-                    ✓
-                </div>
-
-                <div>
-
-                    <strong>
-                        Authorities Notified
-                    </strong>
-
-                    <small>
-                        Emergency response team has been informed
-                    </small>
-
-                </div>
+                <p>
+                    🔴 Immediate field inspection
+                </p>
 
             </div>
 
-        </aside>
 
-    </section>
+            <button class="action-button"
+                    onclick="issueWarning()">
 
+                🚨 Issue Warning
 
-    <!-- FOOTER -->
+            </button>
 
-    <footer>
+        </div>
 
-        <span>
-            CodeNova Disaster Intelligence
-        </span>
+    </div>
 
-        <span>
-            Prototype Risk Engine • For Demonstration
-        </span>
-
-    </footer>
+</div>
 
 
-</main>
+<script>
+
+    function filterAlerts(level) {
+
+        const alerts = document.querySelectorAll(".alert-item");
+        const buttons = document.querySelectorAll(".filter");
+
+        buttons.forEach(button => {
+            button.classList.remove("active");
+        });
+
+        event.target.classList.add("active");
+
+        alerts.forEach(alert => {
+
+            if (level === "all") {
+                alert.style.display = "grid";
+            }
+            else if (alert.dataset.level === level) {
+                alert.style.display = "grid";
+            }
+            else {
+                alert.style.display = "none";
+            }
+
+        });
+
+    }
 
 
-<script src="{{ url_for('static', filename='js/alert-center.js') }}">
+    function issueWarning() {
+
+        alert(
+            "⚠ WARNING ISSUED\n\n" +
+            "Emergency alert generated for Dima Hasao.\n\n" +
+            "Field teams have been marked for priority inspection."
+        );
+
+    }
+
 </script>
 
 </body>
-
 </html>
