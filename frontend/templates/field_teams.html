@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Field Teams | CodeNova</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #06111f;
+            color: #f5f7fb;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 272px;
+            height: 100vh;
+            background: #071526;
+            border-right: 1px solid #16283c;
+            padding: 30px 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 45px;
+            padding-left: 8px;
+        }
+
+        .logo {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #5267ff, #743cff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .brand {
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            font-size: 9px;
+            color: #8292aa;
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            color: #8190a7;
+            margin: 24px 14px 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 14px;
+            margin-bottom: 5px;
+            border-radius: 11px;
+            color: #8da0ba;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-item:hover {
+            background: #10243a;
+            color: white;
+        }
+
+        .nav-item.active {
+            background: #132d49;
+            color: white;
+            border-left: 3px solid #36a4ff;
+        }
+
+        .nav-icon {
+            width: 18px;
+            text-align: center;
+        }
+
+        .badge {
+            margin-left: auto;
+            background: #ff4c61;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .system-card {
+            position: absolute;
+            bottom: 62px;
+            left: 20px;
+            right: 20px;
+            border: 1px solid #1b3047;
+            border-radius: 15px;
+            padding: 17px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .green-dot {
+            width: 9px;
+            height: 9px;
+            background: #35d99a;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #35d99a;
+        }
+
+        .system-text {
+            color: #71839d;
+            font-size: 10px;
+            margin-top: 5px;
+            margin-left: 19px;
+        }
+
+        .demo-text {
+            position: absolute;
+            bottom: 25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #526681;
+            font-size: 9px;
+            letter-spacing: 2px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 272px;
+            padding: 42px 40px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+
+        .eyebrow {
+            color: #329dff;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 7px;
+        }
+
+        h1 {
+            font-size: 30px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: #8295af;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .live {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4be4a1;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* ================= STAT CARDS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: #0b1a2c;
+            border: 1px solid #1a2d43;
+            border-radius: 17px;
+            padding: 21px;
+        }
+
+        .stat-label {
+            color: #7890ad;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .stat-number {
+            font-size: 29px;
+            font-weight: 700;
+            margin-top: 11px;
+        }
+
+        .stat-desc {
+            font-size: 10px;
+            color: #72849c;
+            margin-top: 4px;
+        }
+
+        .green {
+            color: #38dda0;
+        }
+
+        .yellow {
+            color: #ffc857;
+        }
+
+        .red {
+            color: #ff5364;
+        }
+
+        .blue {
+            color: #46aaff;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.55fr 0.85fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: #0a192a;
+            border: 1px solid #1a2d43;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 22px 24px;
+            border-bottom: 1px solid #172b41;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .panel-subtitle {
+            color: #70849e;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        /* ================= MAP ================= */
+
+        .map {
+            height: 365px;
+            position: relative;
+            background-color: #081624;
+            background-image:
+                linear-gradient(rgba(43, 73, 103, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(43, 73, 103, 0.12) 1px, transparent 1px);
+            background-size: 42px 42px;
+        }
+
+        .map-label {
+            position: absolute;
+            color: #657c97;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .assam {
+            left: 48%;
+            top: 42%;
+        }
+
+        .meghalaya {
+            left: 34%;
+            top: 60%;
+        }
+
+        .nagaland {
+            left: 68%;
+            top: 38%;
+        }
+
+        .manipur {
+            left: 69%;
+            top: 60%;
+        }
+
+        .arunachal {
+            left: 55%;
+            top: 17%;
+        }
+
+        .team-marker {
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .team-marker:hover {
+            transform: scale(1.12);
+        }
+
+        .marker-active {
+            background: rgba(51, 220, 156, 0.15);
+            border: 2px solid #35d99a;
+            box-shadow: 0 0 20px rgba(53, 217, 154, 0.25);
+        }
+
+        .marker-critical {
+            background: rgba(255, 76, 97, 0.15);
+            border: 2px solid #ff4c61;
+            box-shadow: 0 0 20px rgba(255, 76, 97, 0.3);
+        }
+
+        .marker-standby {
+            background: rgba(255, 200, 87, 0.15);
+            border: 2px solid #ffc857;
+        }
+
+        .marker-icon {
+            font-size: 17px;
+        }
+
+        .marker-1 {
+            left: 46%;
+            top: 39%;
+        }
+
+        .marker-2 {
+            left: 63%;
+            top: 28%;
+        }
+
+        .marker-3 {
+            left: 31%;
+            top: 56%;
+        }
+
+        .marker-4 {
+            left: 69%;
+            top: 53%;
+        }
+
+        .marker-5 {
+            left: 51%;
+            top: 17%;
+        }
+
+        .map-legend {
+            position: absolute;
+            bottom: 17px;
+            left: 20px;
+            display: flex;
+            gap: 20px;
+            background: rgba(6, 17, 31, 0.85);
+            padding: 9px 13px;
+            border-radius: 9px;
+            border: 1px solid #1b3047;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 9px;
+            color: #879ab2;
+        }
+
+        .legend-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        /* ================= TEAM DETAILS ================= */
+
+        .team-details {
+            padding: 22px;
+        }
+
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 23px;
+        }
+
+        .team-avatar {
+            width: 50px;
+            height: 50px;
+            background: #132c46;
+            border: 1px solid #244663;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .team-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .team-type {
+            font-size: 10px;
+            color: #7288a2;
+            margin-top: 3px;
+        }
+
+        .status-pill {
+            margin-left: auto;
+            font-size: 9px;
+            font-weight: 600;
+            padding: 6px 9px;
+            border-radius: 6px;
+        }
+
+        .status-active {
+            color: #35d99a;
+            background: rgba(53, 217, 154, 0.1);
+        }
+
+        .status-critical {
+            color: #ff5364;
+            background: rgba(255, 83, 100, 0.1);
+        }
+
+        .status-standby {
+            color: #ffc857;
+            background: rgba(255, 200, 87, 0.1);
+        }
+
+        .detail {
+            margin-bottom: 17px;
+        }
+
+        .detail-label {
+            color: #6e849f;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .detail-value {
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .equipment {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 8px;
+        }
+
+        .equipment span {
+            background: #10253a;
+            border: 1px solid #1d3852;
+            padding: 6px 9px;
+            border-radius: 7px;
+            font-size: 9px;
+            color: #a3b4c9;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 9px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            border: none;
+            border-radius: 9px;
+            padding: 11px;
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #318fff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #12273d;
+            border: 1px solid #1e3a54;
+            color: #b3c3d7;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        /* ================= TEAM TABLE ================= */
+
+        .teams-panel {
+            margin-top: 20px;
+        }
+
+        .table-controls {
+            display: flex;
+            gap: 9px;
+        }
+
+        .search {
+            background: #081624;
+            border: 1px solid #1b3047;
+            color: white;
+            border-radius: 8px;
+            padding: 8px 11px;
+            font-family: inherit;
+            font-size: 10px;
+            outline: none;
+        }
+
+        .filter {
+            background: #081624;
+            border: 1px solid #1b3047;
+            color: #a9bad0;
+            border-radius: 8px;
+            padding: 8px;
+            font-family: inherit;
+            font-size: 10px;
+            outline: none;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            text-align: left;
+            padding: 13px 20px;
+            color: #647b96;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #182d43;
+        }
+
+        .table td {
+            padding: 15px 20px;
+            font-size: 11px;
+            color: #b7c5d6;
+            border-bottom: 1px solid #11253a;
+        }
+
+        .table tr:hover {
+            background: #0d2033;
+        }
+
+        .team-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .small-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: #142d46;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+
+        .team-cell-name {
+            color: white;
+            font-weight: 500;
+        }
+
+        .team-cell-type {
+            font-size: 8px;
+            color: #657c96;
+            margin-top: 2px;
+        }
+
+        @media(max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 700px) {
+            .sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .brand,
+            .brand-subtitle,
+            .nav-item span:not(.nav-icon),
+            .system-card,
+            .demo-text,
+            .nav-title {
+                display: none;
+            }
+
+            .logo-section {
+                justify-content: center;
+            }
+
+            .main {
+                margin-left: 70px;
+                padding: 25px 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo-section">
+        <div class="logo">C</div>
+
+        <div>
+            <div class="brand">CodeNova</div>
+            <div class="brand-subtitle">DISASTER INTELLIGENCE</div>
+        </div>
+    </div>
+
+    <a href="/" class="nav-item">
+        <span class="nav-icon">⊞</span>
+        <span>Dashboard</span>
+    </a>
+
+    <div class="nav-title">Risk Analysis</div>
+
+    <a href="/risk-map" class="nav-item">
+        <span class="nav-icon">✦</span>
+        <span>Risk Map</span>
+    </a>
+
+    <a href="/alerts" class="nav-item">
+        <span class="nav-icon">△</span>
+        <span>Alert Center</span>
+        <span class="badge">3</span>
+    </a>
+
+    <a href="/analytics" class="nav-item">
+        <span class="nav-icon">▥</span>
+        <span>Analytics</span>
+    </a>
+
+    <a href="/field-teams" class="nav-item active">
+        <span class="nav-icon">⌁</span>
+        <span>Field Teams</span>
+    </a>
+
+    <div class="system-card">
+        <div class="system-status">
+            <span class="green-dot"></span>
+            System Online
+        </div>
+
+        <div class="system-text">
+            Monitoring active
+        </div>
+    </div>
+
+    <div class="demo-text">
+        DEMO PROTOTYPE
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <div class="topbar">
+
+        <div>
+            <div class="eyebrow">DISASTER RESPONSE • FIELD OPERATIONS</div>
+
+            <h1>Field Teams</h1>
+
+            <div class="subtitle">
+                Real-time deployment & response coordination
+            </div>
+        </div>
+
+        <div class="live">
+            <span class="green-dot"></span>
+            LIVE MONITORING
+        </div>
+
+    </div>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <div class="stat-label">ACTIVE TEAMS</div>
+            <div class="stat-number green">08</div>
+            <div class="stat-desc">Currently operational</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">TEAMS DEPLOYED</div>
+            <div class="stat-number blue">05</div>
+            <div class="stat-desc">Across high-risk zones</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">ON STANDBY</div>
+            <div class="stat-number yellow">03</div>
+            <div class="stat-desc">Ready for deployment</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">CRITICAL MISSIONS</div>
+            <div class="stat-number red">02</div>
+            <div class="stat-desc">Immediate attention required</div>
+        </div>
+
+    </section>
+
+
+    <!-- ================= MAP + TEAM ================= -->
+
+    <section class="content-grid">
+
+        <!-- MAP -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <div class="panel-title">
+                        Team Deployment Map
+                    </div>
+
+                    <div class="panel-subtitle">
+                        Northeast India • Field response units
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="map">
+
+                <div class="map-label assam">ASSAM</div>
+                <div class="map-label meghalaya">MEGHALAYA</div>
+                <div class="map-label nagaland">NAGALAND</div>
+                <div class="map-label manipur">MANIPUR</div>
+                <div class="map-label arunachal">ARUNACHAL<br>PRADESH</div>
+
+
+                <div class="team-marker marker-critical marker-1"
+                     onclick="selectTeam('alpha')">
+                    <span class="marker-icon">🚑</span>
+                </div>
+
+                <div class="team-marker marker-active marker-2"
+                     onclick="selectTeam('bravo')">
+                    <span class="marker-icon">🚁</span>
+                </div>
+
+                <div class="team-marker marker-active marker-3"
+                     onclick="selectTeam('rescue')">
+                    <span class="marker-icon">🛟</span>
+                </div>
+
+                <div class="team-marker marker-standby marker-4"
+                     onclick="selectTeam('delta')">
+                    <span class="marker-icon">⚕</span>
+                </div>
+
+                <div class="team-marker marker-active marker-5"
+                     onclick="selectTeam('echo')">
+                    <span class="marker-icon">📡</span>
+                </div>
+
+
+                <div class="map-legend">
+
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#35d99a;"></span>
+                        Active
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#ffc857;"></span>
+                        Standby
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#ff4c61;"></span>
+                        Critical
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TEAM DETAILS -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <div class="panel-title">
+                        Selected Team
+                    </div>
+
+                    <div class="panel-subtitle">
+                        Live team information
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="team-details">
+
+                <div class="team-header">
+
+                    <div class="team-avatar" id="teamAvatar">
+                        🚑
+                    </div>
+
+                    <div>
+                        <div class="team-name" id="teamName">
+                            Team Alpha-07
+                        </div>
+
+                        <div class="team-type" id="teamType">
+                            Search & Rescue Unit
+                        </div>
+                    </div>
+
+                    <div class="status-pill status-critical" id="teamStatus">
+                        CRITICAL
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Current Location
+                    </div>
+
+                    <div class="detail-value" id="teamLocation">
+                        Dima Hasao, Assam
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Mission
+                    </div>
+
+                    <div class="detail-value" id="teamMission">
+                        Evacuation & terrain assessment
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Team Lead
+                    </div>
+
+                    <div class="detail-value" id="teamLead">
+                        Rahul Sharma
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Team Members
+                    </div>
+
+                    <div class="detail-value" id="teamMembers">
+                        6 personnel
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Equipment
+                    </div>
+
+                    <div class="equipment" id="equipment">
+
+                        <span>Drone</span>
+                        <span>GPS</span>
+                        <span>Medical Kit</span>
+                        <span>Radio</span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        Last Update
+                    </div>
+
+                    <div class="detail-value green" id="lastUpdate">
+                        2 minutes ago
+                    </div>
+
+                </div>
+
+
+                <div class="action-buttons">
+
+                    <button class="btn btn-primary"
+                            onclick="viewMission()">
+                        VIEW MISSION
+                    </button>
+
+                    <button class="btn btn-secondary"
+                            onclick="contactTeam()">
+                        CONTACT TEAM
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= TEAM LIST ================= -->
+
+    <section class="panel teams-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <div class="panel-title">
+                    Field Response Units
+                </div>
+
+                <div class="panel-subtitle">
+                    All registered response teams
+                </div>
+            </div>
+
+
+            <div class="table-controls">
+
+                <input
+                    type="text"
+                    class="search"
+                    id="searchInput"
+                    placeholder="Search team..."
+                    onkeyup="searchTeams()"
+                >
+
+                <select class="filter"
+                        id="statusFilter"
+                        onchange="filterTeams()">
+
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="standby">Standby</option>
+                    <option value="critical">Critical</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+                    <th>TEAM</th>
+                    <th>LOCATION</th>
+                    <th>MISSION</th>
+                    <th>STATUS</th>
+                    <th>LAST UPDATE</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody id="teamTable">
+
+                <tr data-status="critical">
+
+                    <td>
+                        <div class="team-cell">
+
+                            <div class="small-avatar">🚑</div>
+
+                            <div>
+                                <div class="team-cell-name">
+                                    Team Alpha-07
+                                </div>
+
+                                <div class="team-cell-type">
+                                    Search & Rescue
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+
+                    <td>Dima Hasao</td>
+
+                    <td>Evacuation</td>
+
+                    <td>
+                        <span class="status-pill status-critical">
+                            CRITICAL
+                        </span>
+                    </td>
+
+                    <td>2 min ago</td>
+
+                </tr>
+
+
+                <tr data-status="active">
+
+                    <td>
+                        <div class="team-cell">
+
+                            <div class="small-avatar">🚁</div>
+
+                            <div>
+                                <div class="team-cell-name">
+                                    Team Bravo-03
+                                </div>
+
+                                <div class="team-cell-type">
+                                    Aerial Survey
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+
+                    <td>Nagaland</td>
+
+                    <td>Drone Inspection</td>
+
+                    <td>
+                        <span class="status-pill status-active">
+                            ACTIVE
+                        </span>
+                    </td>
+
+                    <td>5 min ago</td>
+
+                </tr>
+
+
+                <tr data-status="active">
+
+                    <td>
+                        <div class="team-cell">
+
+                            <div class="small-avatar">🛟</div>
+
+                            <div>
+                                <div class="team-cell-name">
+                                    Rescue-12
+                                </div>
+
+                                <div class="team-cell-type">
+                                    Rescue Unit
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+
+                    <td>Meghalaya</td>
+
+                    <td>Terrain Assessment</td>
+
+                    <td>
+                        <span class="status-pill status-active">
+                            ACTIVE
+                        </span>
+                    </td>
+
+                    <td>8 min ago</td>
+
+                </tr>
+
+
+                <tr data-status="standby">
+
+                    <td>
+                        <div class="team-cell">
+
+                            <div class="small-avatar">⚕</div>
+
+                            <div>
+                                <div class="team-cell-name">
+                                    Team Delta-04
+                                </div>
+
+                                <div class="team-cell-type">
+                                    Medical Response
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+
+                    <td>Manipur</td>
+
+                    <td>Medical Support</td>
+
+                    <td>
+                        <span class="status-pill status-standby">
+                            STANDBY
+                        </span>
+                    </td>
+
+                    <td>12 min ago</td>
+
+                </tr>
+
+
+                <tr data-status="active">
+
+                    <td>
+                        <div class="team-cell">
+
+                            <div class="small-avatar">📡</div>
+
+                            <div>
+                                <div class="team-cell-name">
+                                    Team Echo-09
+                                </div>
+
+                                <div class="team-cell-type">
+                                    Communication Unit
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+
+                    <td>Arunachal Pradesh</td>
+
+                    <td>Signal Monitoring</td>
+
+                    <td>
+                        <span class="status-pill status-active">
+                            ACTIVE
+                        </span>
+                    </td>
+
+                    <td>4 min ago</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    const teams = {
+
+        alpha: {
+            avatar: "🚑",
+            name: "Team Alpha-07",
+            type: "Search & Rescue Unit",
+            status: "CRITICAL",
+            statusClass: "status-critical",
+            location: "Dima Hasao, Assam",
+            mission: "Evacuation & terrain assessment",
+            lead: "Rahul Sharma",
+            members: "6 personnel",
+            equipment: ["Drone", "GPS", "Medical Kit", "Radio"],
+            update: "2 minutes ago"
+        },
+
+        bravo: {
+            avatar: "🚁",
+            name: "Team Bravo-03",
+            type: "Aerial Survey Unit",
+            status: "ACTIVE",
+            statusClass: "status-active",
+            location: "Nagaland",
+            mission: "Drone-based slope inspection",
+            lead: "Ananya Rao",
+            members: "4 personnel",
+            equipment: ["Drone", "Thermal Camera", "GPS"],
+            update: "5 minutes ago"
+        },
+
+        rescue: {
+            avatar: "🛟",
+            name: "Rescue-12",
+            type: "Rescue Unit",
+            status: "ACTIVE",
+            statusClass: "status-active",
+            location: "Meghalaya",
+            mission: "Terrain assessment & rescue readiness",
+            lead: "Arjun Singh",
+            members: "8 personnel",
+            equipment: ["Rescue Kit", "GPS", "Radio"],
+            update: "8 minutes ago"
+        },
+
+        delta: {
+            avatar: "⚕",
+            name: "Team Delta-04",
+            type: "Medical Response Unit",
+            status: "STANDBY",
+            statusClass: "status-standby",
+            location: "Manipur",
+            mission: "Emergency medical support",
+            lead: "Dr. Priya Nair",
+            members: "5 personnel",
+            equipment: ["Medical Kit", "Ambulance", "Radio"],
+            update: "12 minutes ago"
+        },
+
+        echo: {
+            avatar: "📡",
+            name: "Team Echo-09",
+            type: "Communication Unit",
+            status: "ACTIVE",
+            statusClass: "status-active",
+            location: "Arunachal Pradesh",
+            mission: "Emergency signal monitoring",
+            lead: "Vikram Das",
+            members: "4 personnel",
+            equipment: ["Radio", "Satellite Phone", "GPS"],
+            update: "4 minutes ago"
+        }
+
+    };
+
+
+    function selectTeam(id) {
+
+        const team = teams[id];
+
+        document.getElementById("teamAvatar").innerText = team.avatar;
+
+        document.getElementById("teamName").innerText = team.name;
+
+        document.getElementById("teamType").innerText = team.type;
+
+        const status = document.getElementById("teamStatus");
+
+        status.innerText = team.status;
+
+        status.className =
+            "status-pill " + team.statusClass;
+
+        document.getElementById("teamLocation").innerText =
+            team.location;
+
+        document.getElementById("teamMission").innerText =
+            team.mission;
+
+        document.getElementById("teamLead").innerText =
+            team.lead;
+
+        document.getElementById("teamMembers").innerText =
+            team.members;
+
+        document.getElementById("lastUpdate").innerText =
+            team.update;
+
+
+        const equipment =
+            document.getElementById("equipment");
+
+        equipment.innerHTML = "";
+
+        team.equipment.forEach(item => {
+
+            const span = document.createElement("span");
+
+            span.innerText = item;
+
+            equipment.appendChild(span);
+
+        });
+
+    }
+
+
+    function searchTeams() {
+
+        const search =
+            document.getElementById("searchInput")
+            .value
+            .toLowerCase();
+
+        const rows =
+            document.querySelectorAll("#teamTable tr");
+
+        rows.forEach(row => {
+
+            const text =
+                row.innerText.toLowerCase();
+
+            row.style.display =
+                text.includes(search) ? "" : "none";
+
+        });
+
+    }
+
+
+    function filterTeams() {
+
+        const filter =
+            document.getElementById("statusFilter").value;
+
+        const rows =
+            document.querySelectorAll("#teamTable tr");
+
+        rows.forEach(row => {
+
+            const status =
+                row.getAttribute("data-status");
+
+            if (filter === "all" || status === filter) {
+
+                row.style.display = "";
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    function viewMission() {
+
+        alert(
+            "Mission: Evacuation & terrain assessment\n\n" +
+            "Target Zone: Dima Hasao, Assam\n" +
+            "Priority: CRITICAL\n\n" +
+            "Recommended Action:\n" +
+            "Evacuate vulnerable settlements and inspect the affected road segment."
+        );
+
+    }
+
+
+    function contactTeam() {
+
+        alert(
+            "Secure communication channel established.\n\n" +
+            "Team Alpha-07 has been notified."
+        );
+
+    }
+
+</script>
+
+</body>
+</html>
