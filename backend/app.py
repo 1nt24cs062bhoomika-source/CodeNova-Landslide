@@ -17,5 +17,10 @@ def risk_analysis():
     return render_template("risk-analysis.html")
 
 
+@app.route("/alert-center")
+def alert_center():
+    return render_template("alert-center.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CodeNova | Alert Center</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/alert-center.css') }}">
+
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-logo">
+            C
+        </div>
+
+        <div>
+            <h2>CodeNova</h2>
+            <p>DISASTER INTELLIGENCE</p>
+        </div>
+
+    </div>
+
+
+    <nav class="navigation">
+
+        <a href="/" class="nav-item">
+            <span>▣</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/risk-analysis" class="nav-item">
+            <span>◉</span>
+            <span>Risk Analysis</span>
+        </a>
+
+        <a href="#" class="nav-item">
+            <span>⌖</span>
+            <span>Risk Map</span>
+        </a>
+
+        <a href="/alert-center" class="nav-item active">
+            <span>⚠</span>
+            <span>Alert Center</span>
+
+            <b id="alertCount">3</b>
+        </a>
+
+        <a href="#" class="nav-item">
+            <span>▥</span>
+            <span>Analytics</span>
+        </a>
+
+        <a href="#" class="nav-item">
+            <span>◌</span>
+            <span>Field Teams</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="system-status">
+
+            <div class="online-dot"></div>
+
+            <div>
+                <strong>System Online</strong>
+                <small>Monitoring active</small>
+            </div>
+
+        </div>
+
+        <div class="prototype">
+            DEMO PROTOTYPE
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div>
+
+            <div class="top-label">
+                DISASTER MANAGEMENT • NER
+            </div>
+
+            <h1>Alert Center</h1>
+
+            <p class="subtitle">
+                Real-time disaster alerts and response intelligence
+            </p>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <div class="live">
+                <span></span>
+                LIVE MONITORING
+            </div>
+
+            <div class="updated">
+                Last updated
+                <strong id="lastUpdated">00:28</strong>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= SUMMARY ================= -->
+
+    <section class="summary">
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                ACTIVE ALERTS
+
+                <span class="summary-icon red">
+                    !
+                </span>
+            </div>
+
+            <h2 id="activeAlerts">03</h2>
+
+            <p class="red-text">
+                Requires attention
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                CRITICAL
+
+                <span class="summary-icon red">
+                    ⚠
+                </span>
+            </div>
+
+            <h2 id="criticalAlerts">
+                01
+            </h2>
+
+            <p class="red-text">
+                Immediate response
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                HIGH RISK
+
+                <span class="summary-icon orange">
+                    ◆
+                </span>
+            </div>
+
+            <h2 id="highAlerts">
+                02
+            </h2>
+
+            <p class="orange-text">
+                Requires monitoring
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                AUTHORITIES
+
+                <span class="summary-icon green">
+                    ✓
+                </span>
+            </div>
+
+            <h2>
+                03
+            </h2>
+
+            <p class="green-text">
+                Notified
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= TOOLBAR ================= -->
+
+    <section class="toolbar">
+
+        <div class="filters">
+
+            <button class="filter active"
+                    data-filter="all">
+                ALL
+            </button>
+
+            <button class="filter"
+                    data-filter="critical">
+                CRITICAL
+            </button>
+
+            <button class="filter"
+                    data-filter="high">
+                HIGH
+            </button>
+
+        </div>
+
+
+        <button class="refresh"
+                id="refreshAlerts">
+
+            ↻ REFRESH ALERTS
+
+        </button>
+
+    </section>
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <section class="content">
+
+
+        <!-- LEFT : ALERT LIST -->
+
+        <div class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <p>REAL-TIME ALERT FEED</p>
+
+                    <h2>
+                        Active Disaster Alerts
+                    </h2>
+
+                </div>
+
+                <span class="active-label">
+                    3 ACTIVE
+                </span>
+
+            </div>
+
+
+            <!-- ALERT 1 -->
+
+            <article class="alert-card"
+                     data-level="critical"
+                     data-id="1">
+
+                <div class="alert-header">
+
+                    <span class="alert-dot critical-dot"></span>
+
+                    <div class="alert-title">
+
+                        <h3>
+                            Landslide Risk Critical
+                        </h3>
+
+                        <p>
+                            Dima Hasao, Assam
+                        </p>
+
+                        <small>
+                            2 minutes ago
+                        </small>
+
+                    </div>
+
+                    <span class="badge critical">
+                        CRITICAL
+                    </span>
+
+                </div>
+
+
+                <div class="alert-data">
+
+                    <div>
+                        <span>RAINFALL</span>
+                        <strong>220 mm</strong>
+                    </div>
+
+                    <div>
+                        <span>SOIL MOISTURE</span>
+                        <strong>82%</strong>
+                    </div>
+
+                    <div>
+                        <span>SLOPE</span>
+                        <strong>38°</strong>
+                    </div>
+
+                    <div>
+                        <span>VILLAGES</span>
+                        <strong>2</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <button class="view">
+                        VIEW DETAILS
+                    </button>
+
+                    <button class="ack">
+                        ACKNOWLEDGE
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- ALERT 2 -->
+
+            <article class="alert-card"
+                     data-level="high"
+                     data-id="2">
+
+                <div class="alert-header">
+
+                    <span class="alert-dot high-dot"></span>
+
+                    <div class="alert-title">
+
+                        <h3>
+                            Rainfall Threshold Exceeded
+                        </h3>
+
+                        <p>
+                            East Khasi Hills, Meghalaya
+                        </p>
+
+                        <small>
+                            8 minutes ago
+                        </small>
+
+                    </div>
+
+                    <span class="badge high">
+                        HIGH
+                    </span>
+
+                </div>
+
+
+                <div class="alert-data">
+
+                    <div>
+                        <span>RAINFALL</span>
+                        <strong>180 mm</strong>
+                    </div>
+
+                    <div>
+                        <span>SOIL MOISTURE</span>
+                        <strong>70%</strong>
+                    </div>
+
+                    <div>
+                        <span>SLOPE</span>
+                        <strong>31°</strong>
+                    </div>
+
+                    <div>
+                        <span>VILLAGES</span>
+                        <strong>5</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <button class="view">
+                        VIEW DETAILS
+                    </button>
+
+                    <button class="ack">
+                        ACKNOWLEDGE
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- ALERT 3 -->
+
+            <article class="alert-card"
+                     data-level="high"
+                     data-id="3">
+
+                <div class="alert-header">
+
+                    <span class="alert-dot high-dot"></span>
+
+                    <div class="alert-title">
+
+                        <h3>
+                            Increased Soil Moisture Detected
+                        </h3>
+
+                        <p>
+                            Nagaland Hills, Nagaland
+                        </p>
+
+                        <small>
+                            14 minutes ago
+                        </small>
+
+                    </div>
+
+                    <span class="badge high">
+                        HIGH
+                    </span>
+
+                </div>
+
+
+                <div class="alert-data">
+
+                    <div>
+                        <span>RAINFALL</span>
+                        <strong>165 mm</strong>
+                    </div>
+
+                    <div>
+                        <span>SOIL MOISTURE</span>
+                        <strong>64%</strong>
+                    </div>
+
+                    <div>
+                        <span>SLOPE</span>
+                        <strong>29°</strong>
+                    </div>
+
+                    <div>
+                        <span>VILLAGES</span>
+                        <strong>3</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <button class="view">
+                        VIEW DETAILS
+                    </button>
+
+                    <button class="ack">
+                        ACKNOWLEDGE
+                    </button>
+
+                </div>
+
+            </article>
+
+        </div>
+
+
+        <!-- RIGHT : SELECTED ALERT -->
+
+        <aside class="panel details-panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <p>SELECTED ALERT</p>
+
+                    <h2 id="selectedLocation">
+                        Dima Hasao
+                    </h2>
+
+                </div>
+
+                <span class="active-label">
+                    CRITICAL
+                </span>
+
+            </div>
+
+
+            <!-- RISK SCORE -->
+
+            <div class="risk-area">
+
+                <div class="risk-circle">
+
+                    <div>
+
+                        <strong>
+                            84
+                        </strong>
+
+                        <span>%</span>
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Landslide Risk Score
+                    </h3>
+
+                    <p>
+                        Multiple environmental indicators
+                        indicate elevated landslide probability.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- INDICATORS -->
+
+            <div class="section-label">
+                ENVIRONMENTAL INDICATORS
+            </div>
+
+
+            <div class="indicators">
+
+                <div class="indicator">
+
+                    <span>🌧 Rainfall</span>
+
+                    <strong>220 mm</strong>
+
+                </div>
+
+
+                <div class="indicator">
+
+                    <span>💧 Soil Moisture</span>
+
+                    <strong>82%</strong>
+
+                </div>
+
+
+                <div class="indicator">
+
+                    <span>▲ Slope</span>
+
+                    <strong>38°</strong>
+
+                </div>
+
+
+                <div class="indicator">
+
+                    <span>▣ Historical Events</span>
+
+                    <strong>HIGH</strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESPONSE -->
+
+            <div class="response">
+
+                <h3>
+                    ⚠ Recommended Response
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Alert nearby communities
+                    </li>
+
+                    <li>
+                        Monitor slope movement continuously
+                    </li>
+
+                    <li>
+                        Keep evacuation routes ready
+                    </li>
+
+                    <li>
+                        Deploy field response team
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- AUTHORITY -->
+
+            <div class="authority">
+
+                <div class="check">
+                    ✓
+                </div>
+
+                <div>
+
+                    <strong>
+                        Authorities Notified
+                    </strong>
+
+                    <small>
+                        Emergency response team has been informed
+                    </small>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <span>
+            CodeNova Disaster Intelligence
+        </span>
+
+        <span>
+            Prototype Risk Engine • For Demonstration
+        </span>
+
+    </footer>
+
+
+</main>
+
+
+<script src="{{ url_for('static', filename='js/alert-center.js') }}">
+</script>
+
+</body>
+
+</html>
