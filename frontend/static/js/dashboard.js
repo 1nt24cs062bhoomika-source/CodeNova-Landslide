@@ -136,7 +136,7 @@ navItems.forEach(item => {
 
     item.addEventListener("click", function(event) {
 
-        event.preventDefault();
+        
 
         navItems.forEach(nav =>
             nav.classList.remove("active")

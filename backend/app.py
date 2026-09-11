@@ -12,5 +12,10 @@ def home():
     return render_template("dashboard.html")
 
 
+@app.route("/risk-analysis")
+def risk_analysis():
+    return render_template("risk-analysis.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)

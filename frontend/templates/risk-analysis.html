@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CodeNova | Risk Analysis</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .analysis-container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .analysis-header {
+            margin-bottom: 25px;
+        }
+
+        .analysis-header h1 {
+            font-size: 28px;
+            margin: 6px 0;
+        }
+
+        .analysis-header p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 20px;
+        }
+
+        .input-card,
+        .result-card {
+            background: linear-gradient(145deg, #0d1b2d, #0a1727);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .input-card h2,
+        .result-card h2 {
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .description {
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 22px;
+        }
+
+        .input-group {
+            margin-bottom: 19px;
+        }
+
+        .input-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .input-label label {
+            color: #c8d4e4;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .input-value {
+            color: var(--blue);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+            accent-color: var(--blue);
+        }
+
+        .range-values {
+            display: flex;
+            justify-content: space-between;
+            color: #53657b;
+            font-size: 8px;
+            margin-top: 5px;
+        }
+
+        .history-select {
+            width: 100%;
+            padding: 11px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #091625;
+            color: white;
+            outline: none;
+        }
+
+        .analyze-button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-weight: 800;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .analyze-button:hover {
+            background: #3474ed;
+        }
+
+        .engine-note {
+            margin-top: 15px;
+            padding: 11px;
+            border-radius: 8px;
+            background: rgba(77,163,255,.06);
+            border: 1px solid rgba(77,163,255,.12);
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        .result-top {
+            text-align: center;
+        }
+
+        .result-circle {
+            width: 170px;
+            height: 170px;
+            margin: 15px auto;
+            border-radius: 50%;
+
+            background:
+                radial-gradient(circle, #0d1b2d 58%, transparent 59%),
+                conic-gradient(#ff4d5a 84%, #243347 0);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: background .4s ease;
+        }
+
+        .result-circle strong {
+            font-size: 45px;
+        }
+
+        .result-circle span {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .result-level {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 6px;
+            background: rgba(255,77,90,.1);
+            color: #ff4d5a;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .result-description {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+            margin-top: 12px;
+        }
+
+        .breakdown {
+            margin-top: 22px;
+        }
+
+        .breakdown h3 {
+            font-size: 11px;
+            margin-bottom: 12px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .breakdown-row span {
+            width: 105px;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .bar {
+            flex: 1;
+            height: 6px;
+            background: #1c2b3d;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            background: var(--blue);
+            transition: width .4s ease;
+        }
+
+        .breakdown-row strong {
+            width: 35px;
+            text-align: right;
+            font-size: 9px;
+        }
+
+        .action-result {
+            margin-top: 18px;
+            padding: 14px;
+            border-left: 3px solid #ff4d5a;
+            background: rgba(255,77,90,.06);
+        }
+
+        .action-result strong {
+            font-size: 10px;
+        }
+
+        .action-result ul {
+            margin: 8px 0 0 15px;
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 800px) {
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+        <div class="brand-icon">C</div>
+
+        <div>
+            <h2>CodeNova</h2>
+            <span>DISASTER INTELLIGENCE</span>
+        </div>
+    </div>
+
+    <nav class="navigation">
+
+        <a href="/" class="nav-item">
+            <span>▣</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/risk-analysis" class="nav-item active">
+            <span>◉</span>
+            <span>Risk Analysis</span>
+        </a>
+
+        <a href="/" class="nav-item">
+            <span>⌖</span>
+            <span>Risk Map</span>
+        </a>
+
+        <a href="/" class="nav-item">
+            <span>⚠</span>
+            <span>Alert Center</span>
+        </a>
+
+        <a href="/" class="nav-item">
+            <span>◫</span>
+            <span>Analytics</span>
+        </a>
+
+        <a href="/" class="nav-item">
+            <span>◌</span>
+            <span>Field Teams</span>
+        </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+        <div class="system-status">
+            <span class="status-dot"></span>
+
+            <div>
+                <strong>System Online</strong>
+                <small>Monitoring active</small>
+            </div>
+        </div>
+
+        <div class="prototype-label">
+            DEMO PROTOTYPE
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main-content">
+
+    <div class="analysis-container">
+
+        <div class="analysis-header">
+
+            <p class="eyebrow">
+                AI-ASSISTED DECISION SUPPORT
+            </p>
+
+            <h1>Risk Analysis Engine</h1>
+
+            <p>
+                Evaluate environmental indicators to estimate
+                landslide risk and prioritize action.
+            </p>
+
+        </div>
+
+
+        <div class="analysis-grid">
+
+
+            <!-- INPUTS -->
+
+            <div class="input-card">
+
+                <span class="section-label">
+                    ENVIRONMENTAL INPUTS
+                </span>
+
+                <h2>Risk Factors</h2>
+
+                <p class="description">
+                    Adjust the indicators to simulate a monitoring scenario.
+                </p>
+
+
+                <!-- RAINFALL -->
+
+                <div class="input-group">
+
+                    <div class="input-label">
+
+                        <label>🌧 Rainfall</label>
+
+                        <span class="input-value">
+                            <span id="rainfallValue">220</span> mm
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="rainfall"
+                        min="0"
+                        max="300"
+                        value="220"
+                    >
+
+                    <div class="range-values">
+                        <span>0 mm</span>
+                        <span>300 mm</span>
+                    </div>
+
+                </div>
+
+
+                <!-- SOIL -->
+
+                <div class="input-group">
+
+                    <div class="input-label">
+
+                        <label>💧 Soil Moisture</label>
+
+                        <span class="input-value">
+                            <span id="soilValue">82</span>%
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="soil"
+                        min="0"
+                        max="100"
+                        value="82"
+                    >
+
+                    <div class="range-values">
+                        <span>0%</span>
+                        <span>100%</span>
+                    </div>
+
+                </div>
+
+
+                <!-- SLOPE -->
+
+                <div class="input-group">
+
+                    <div class="input-label">
+
+                        <label>⛰ Slope</label>
+
+                        <span class="input-value">
+                            <span id="slopeValue">38</span>°
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="slope"
+                        min="0"
+                        max="60"
+                        value="38"
+                    >
+
+                    <div class="range-values">
+                        <span>0°</span>
+                        <span>60°</span>
+                    </div>
+
+                </div>
+
+
+                <!-- ELEVATION -->
+
+                <div class="input-group">
+
+                    <div class="input-label">
+
+                        <label>🏔 Elevation</label>
+
+                        <span class="input-value">
+                            <span id="elevationValue">1500</span> m
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="elevation"
+                        min="0"
+                        max="3000"
+                        value="1500"
+                    >
+
+                    <div class="range-values">
+                        <span>0 m</span>
+                        <span>3000 m</span>
+                    </div>
+
+                </div>
+
+
+                <!-- HISTORY -->
+
+                <div class="input-group">
+
+                    <div class="input-label">
+
+                        <label>📈 Historical Landslide Frequency</label>
+
+                    </div>
+
+                    <select id="history" class="history-select">
+
+                        <option value="low">
+                            Low
+                        </option>
+
+                        <option value="medium">
+                            Medium
+                        </option>
+
+                        <option value="high" selected>
+                            High
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <button
+                    id="analyzeButton"
+                    class="analyze-button"
+                    type="button">
+
+                    ANALYZE RISK
+
+                </button>
+
+
+                <div class="engine-note">
+
+                    <strong>Prototype Risk Engine</strong><br>
+
+                    This demonstration uses a transparent weighted
+                    scoring model. It can later be replaced by a
+                    trained ML model during deployment.
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULTS -->
+
+            <div class="result-card">
+
+                <span class="section-label">
+                    RISK ASSESSMENT
+                </span>
+
+                <h2>Predicted Risk</h2>
+
+
+                <div class="result-top">
+
+                    <div class="result-circle" id="resultCircle">
+
+                        <div>
+                            <strong id="riskScore">84</strong>
+                            <span>%</span>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="result-level"
+                        id="riskLevel">
+
+                        CRITICAL
+
+                    </div>
+
+
+                    <p
+                        class="result-description"
+                        id="riskDescription">
+
+                        Multiple environmental indicators indicate
+                        a critical landslide risk. Immediate attention
+                        is recommended.
+
+                    </p>
+
+                </div>
+
+
+                <!-- BREAKDOWN -->
+
+                <div class="breakdown">
+
+                    <h3>Indicator Contribution</h3>
+
+
+                    <div class="breakdown-row">
+
+                        <span>Rainfall</span>
+
+                        <div class="bar">
+                            <div
+                                class="bar-fill"
+                                id="rainBar">
+                            </div>
+                        </div>
+
+                        <strong id="rainScore">73</strong>
+
+                    </div>
+
+
+                    <div class="breakdown-row">
+
+                        <span>Soil Moisture</span>
+
+                        <div class="bar">
+                            <div
+                                class="bar-fill"
+                                id="soilBar">
+                            </div>
+                        </div>
+
+                        <strong id="soilScore">82</strong>
+
+                    </div>
+
+
+                    <div class="breakdown-row">
+
+                        <span>Slope</span>
+
+                        <div class="bar">
+                            <div
+                                class="bar-fill"
+                                id="slopeBar">
+                            </div>
+                        </div>
+
+                        <strong id="slopeScore">63</strong>
+
+                    </div>
+
+
+                    <div class="breakdown-row">
+
+                        <span>Elevation</span>
+
+                        <div class="bar">
+                            <div
+                                class="bar-fill"
+                                id="elevationBar">
+                            </div>
+                        </div>
+
+                        <strong id="elevationScore">50</strong>
+
+                    </div>
+
+
+                    <div class="breakdown-row">
+
+                        <span>History</span>
+
+                        <div class="bar">
+                            <div
+                                class="bar-fill"
+                                id="historyBar">
+                            </div>
+                        </div>
+
+                        <strong id="historyScore">90</strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTION -->
+
+                <div class="action-result">
+
+                    <strong>
+                        ⚠ Recommended Action
+                    </strong>
+
+                    <ul id="actionList">
+
+                        <li>Issue localized warning</li>
+                        <li>Prioritize field inspection immediately</li>
+                        <li>Monitor rainfall continuously</li>
+                        <li>Alert disaster management authority</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* -----------------------------
+       GET ELEMENTS
+    ----------------------------- */
+
+    const rainfall = document.getElementById("rainfall");
+    const soil = document.getElementById("soil");
+    const slope = document.getElementById("slope");
+    const elevation = document.getElementById("elevation");
+    const history = document.getElementById("history");
+
+    const rainfallValue = document.getElementById("rainfallValue");
+    const soilValue = document.getElementById("soilValue");
+    const slopeValue = document.getElementById("slopeValue");
+    const elevationValue = document.getElementById("elevationValue");
+
+    const analyzeButton = document.getElementById("analyzeButton");
+
+
+    /* -----------------------------
+       SLIDER DISPLAY
+    ----------------------------- */
+
+    rainfall.addEventListener("input", function () {
+        rainfallValue.textContent = this.value;
+    });
+
+    soil.addEventListener("input", function () {
+        soilValue.textContent = this.value;
+    });
+
+    slope.addEventListener("input", function () {
+        slopeValue.textContent = this.value;
+    });
+
+    elevation.addEventListener("input", function () {
+        elevationValue.textContent = this.value;
+    });
+
+
+    /* -----------------------------
+       RISK CALCULATION
+    ----------------------------- */
+
+    function calculateRisk() {
+
+        const rainfallNum = Number(rainfall.value);
+        const soilNum = Number(soil.value);
+        const slopeNum = Number(slope.value);
+        const elevationNum = Number(elevation.value);
+        const historyValue = history.value;
+
+
+        /* NORMALIZATION */
+
+        const rainfallScore =
+            Math.min(rainfallNum / 250, 1) * 100;
+
+        const soilScore =
+            soilNum;
+
+        const slopeScore =
+            Math.min(slopeNum / 45, 1) * 100;
+
+        const elevationScore =
+            Math.min(elevationNum / 2500, 1) * 100;
+
+
+        let historyScore = 30;
+
+        if (historyValue === "medium") {
+            historyScore = 60;
+        }
+
+        if (historyValue === "high") {
+            historyScore = 90;
+        }
+
+
+        /* WEIGHTED PROTOTYPE MODEL */
+
+        let risk =
+            (rainfallScore * 0.30) +
+            (soilScore * 0.20) +
+            (slopeScore * 0.25) +
+            (elevationScore * 0.10) +
+            (historyScore * 0.15);
+
+
+        risk = Math.round(
+            Math.max(0, Math.min(100, risk))
+        );
+
+
+        /* RISK LEVEL */
+
+        let level;
+        let description;
+
+        if (risk >= 75) {
+
+            level = "CRITICAL";
+
+            description =
+                "Multiple environmental indicators indicate a critical landslide risk. Immediate attention is recommended.";
+
+        } else if (risk >= 55) {
+
+            level = "HIGH";
+
+            description =
+                "Environmental conditions indicate elevated landslide risk. Field inspection should be prioritized.";
+
+        } else if (risk >= 35) {
+
+            level = "MODERATE";
+
+            description =
+                "Moderate landslide risk detected. Continue monitoring environmental indicators.";
+
+        } else {
+
+            level = "LOW";
+
+            description =
+                "Current environmental conditions indicate relatively low landslide risk.";
+
+        }
+
+
+        /* UPDATE RESULT */
+
+        document.getElementById("riskScore").textContent = risk;
+
+        document.getElementById("riskLevel").textContent = level;
+
+        document.getElementById("riskDescription").textContent =
+            description;
+
+
+        /* UPDATE BARS */
+
+        document.getElementById("rainBar").style.width =
+            rainfallScore + "%";
+
+        document.getElementById("soilBar").style.width =
+            soilScore + "%";
+
+        document.getElementById("slopeBar").style.width =
+            slopeScore + "%";
+
+        document.getElementById("elevationBar").style.width =
+            elevationScore + "%";
+
+        document.getElementById("historyBar").style.width =
+            historyScore + "%";
+
+
+        /* UPDATE NUMBERS */
+
+        document.getElementById("rainScore").textContent =
+            Math.round(rainfallScore);
+
+        document.getElementById("soilScore").textContent =
+            Math.round(soilScore);
+
+        document.getElementById("slopeScore").textContent =
+            Math.round(slopeScore);
+
+        document.getElementById("elevationScore").textContent =
+            Math.round(elevationScore);
+
+        document.getElementById("historyScore").textContent =
+            historyScore;
+
+
+        /* CHANGE CIRCLE */
+
+        let color = "#42d392";
+
+        if (risk >= 75) {
+            color = "#ff4d5a";
+        } else if (risk >= 55) {
+            color = "#ff9f43";
+        } else if (risk >= 35) {
+            color = "#ffd166";
+        }
+
+
+        document.getElementById("resultCircle").style.background =
+            `radial-gradient(circle, #0d1b2d 58%, transparent 59%),
+             conic-gradient(${color} ${risk}%, #243347 0)`;
+
+
+        /* CHANGE LEVEL COLOR */
+
+        const levelElement =
+            document.getElementById("riskLevel");
+
+        if (risk >= 75) {
+
+            levelElement.style.color = "#ff4d5a";
+            levelElement.style.background =
+                "rgba(255,77,90,.1)";
+
+        } else if (risk >= 55) {
+
+            levelElement.style.color = "#ff9f43";
+            levelElement.style.background =
+                "rgba(255,159,67,.1)";
+
+        } else if (risk >= 35) {
+
+            levelElement.style.color = "#ffd166";
+            levelElement.style.background =
+                "rgba(255,209,102,.1)";
+
+        } else {
+
+            levelElement.style.color = "#42d392";
+            levelElement.style.background =
+                "rgba(66,211,146,.1)";
+        }
+
+
+        /* RECOMMENDED ACTIONS */
+
+        const actionList =
+            document.getElementById("actionList");
+
+
+        if (risk >= 75) {
+
+            actionList.innerHTML = `
+                <li>Issue localized warning</li>
+                <li>Prioritize field inspection immediately</li>
+                <li>Monitor rainfall continuously</li>
+                <li>Alert disaster management authority</li>
+            `;
+
+        } else if (risk >= 55) {
+
+            actionList.innerHTML = `
+                <li>Schedule field inspection</li>
+                <li>Increase rainfall monitoring</li>
+                <li>Notify local response team</li>
+            `;
+
+        } else if (risk >= 35) {
+
+            actionList.innerHTML = `
+                <li>Continue environmental monitoring</li>
+                <li>Increase inspection frequency</li>
+                <li>Reassess after significant rainfall</li>
+            `;
+
+        } else {
+
+            actionList.innerHTML = `
+                <li>Continue routine monitoring</li>
+                <li>Maintain regular inspection</li>
+                <li>Reassess after significant rainfall</li>
+            `;
+        }
+
+    }
+
+
+    /* -----------------------------
+       BUTTON
+    ----------------------------- */
+
+    analyzeButton.addEventListener("click", function () {
+
+        calculateRisk();
+
+    });
+
+
+    /* -----------------------------
+       INITIAL RESULT
+    ----------------------------- */
+
+    calculateRisk();
+
+});
+
+</script>
+
+</body>
+</html>
