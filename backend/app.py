@@ -9,7 +9,7 @@ app = Flask(
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("dashboard.html")
 
 
 if __name__ == "__main__":

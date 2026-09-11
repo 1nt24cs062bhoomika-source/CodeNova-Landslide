@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CodeNova | Landslide Risk Monitoring</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Our CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">C</div>
+            <div>
+                <h2>CodeNova</h2>
+                <span>DISASTER INTELLIGENCE</span>
+            </div>
+        </div>
+
+        <nav class="navigation">
+
+            <a href="#" class="nav-item active">
+                <span>▣</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>◉</span>
+                <span>Risk Analysis</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>⌖</span>
+                <span>Risk Map</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>⚠</span>
+                <span>Alert Center</span>
+                <b class="notification">3</b>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>◫</span>
+                <span>Analytics</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>◌</span>
+                <span>Field Teams</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>System Online</strong>
+                    <small>Monitoring active</small>
+                </div>
+            </div>
+
+            <div class="prototype-label">
+                DEMO PROTOTYPE
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <p class="eyebrow">DISASTER MANAGEMENT • NER</p>
+                <h1>Landslide Risk Monitoring</h1>
+                <p class="subtitle">
+                    AI-assisted early warning & response intelligence
+                </p>
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="live-status">
+                    <span class="status-dot"></span>
+                    LIVE MONITORING
+                </div>
+
+                <div class="updated">
+                    Last updated
+                    <strong id="lastUpdated">Just now</strong>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= KPI CARDS ================= -->
+
+        <section class="kpi-grid">
+
+            <div class="kpi-card">
+                <div class="kpi-top">
+                    <span>REGIONAL RISK</span>
+                    <span class="kpi-icon red">⚠</span>
+                </div>
+
+                <div class="kpi-value">
+                    84<span>%</span>
+                </div>
+
+                <div class="risk-critical">
+                    CRITICAL
+                </div>
+
+                <p>Current highest detected risk</p>
+            </div>
+
+
+            <div class="kpi-card">
+                <div class="kpi-top">
+                    <span>HIGH-RISK ZONES</span>
+                    <span class="kpi-icon orange">◈</span>
+                </div>
+
+                <div class="kpi-value">
+                    12
+                </div>
+
+                <div class="kpi-change">
+                    ↑ 3 zones
+                </div>
+
+                <p>Compared with previous assessment</p>
+            </div>
+
+
+            <div class="kpi-card">
+                <div class="kpi-top">
+                    <span>VILLAGES AT RISK</span>
+                    <span class="kpi-icon yellow">⌂</span>
+                </div>
+
+                <div class="kpi-value">
+                    27
+                </div>
+
+                <div class="kpi-change">
+                    8 critical
+                </div>
+
+                <p>Potentially exposed settlements</p>
+            </div>
+
+
+            <div class="kpi-card">
+                <div class="kpi-top">
+                    <span>ACTIVE ALERTS</span>
+                    <span class="kpi-icon red">!</span>
+                </div>
+
+                <div class="kpi-value">
+                    03
+                </div>
+
+                <div class="kpi-change">
+                    Requires attention
+                </div>
+
+                <p>Authorities notified</p>
+            </div>
+
+        </section>
+
+
+        <!-- ================= MAP + RISK PANEL ================= -->
+
+        <section class="main-grid">
+
+            <!-- MAP -->
+
+            <div class="panel map-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="section-label">REGIONAL RISK MAP</span>
+                        <h2>Northeast India</h2>
+                    </div>
+
+                    <div class="map-legend">
+
+                        <span>
+                            <i class="legend-dot low"></i>
+                            Low
+                        </span>
+
+                        <span>
+                            <i class="legend-dot medium"></i>
+                            Moderate
+                        </span>
+
+                        <span>
+                            <i class="legend-dot high"></i>
+                            High
+                        </span>
+
+                        <span>
+                            <i class="legend-dot critical"></i>
+                            Critical
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Simulated map -->
+                <div class="risk-map">
+
+                    <div class="map-grid"></div>
+
+                    <div class="map-label assam">
+                        ASSAM
+                    </div>
+
+                    <div class="map-label meghalaya">
+                        MEGHALAYA
+                    </div>
+
+                    <div class="map-label arunachal">
+                        ARUNACHAL<br>
+                        PRADESH
+                    </div>
+
+                    <div class="map-label nagaland">
+                        NAGALAND
+                    </div>
+
+                    <div class="map-label manipur">
+                        MANIPUR
+                    </div>
+
+                    <div class="map-label mizoram">
+                        MIZORAM
+                    </div>
+
+                    <!-- Hotspots -->
+
+                    <button class="hotspot critical-zone zone-1"
+                            onclick="showZone('Dima Hasao', 84, 'CRITICAL', 220, 82, 38)">
+                        <span></span>
+                        <strong>84%</strong>
+                    </button>
+
+                    <button class="hotspot high-zone zone-2"
+                            onclick="showZone('East Khasi Hills', 72, 'HIGH', 180, 70, 31)">
+                        <span></span>
+                        <strong>72%</strong>
+                    </button>
+
+                    <button class="hotspot high-zone zone-3"
+                            onclick="showZone('Nagaland Hills', 67, 'HIGH', 165, 64, 29)">
+                        <span></span>
+                        <strong>67%</strong>
+                    </button>
+
+                    <button class="hotspot medium-zone zone-4"
+                            onclick="showZone('Mizoram Hills', 54, 'MODERATE', 130, 58, 24)">
+                        <span></span>
+                        <strong>54%</strong>
+                    </button>
+
+                    <div class="map-overlay">
+                        <span>●</span> Simulated monitoring data
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SELECTED RISK -->
+
+            <div class="panel risk-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <span class="section-label">SELECTED ZONE</span>
+                        <h2 id="zoneName">Dima Hasao</h2>
+                    </div>
+
+                    <span class="critical-badge" id="zoneLevel">
+                        CRITICAL
+                    </span>
+                </div>
+
+
+                <div class="risk-score">
+
+                    <div class="score-circle">
+                        <div>
+                            <strong id="zoneRisk">84</strong>
+                            <span>%</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="score-title">Landslide Risk Score</p>
+                        <p class="score-description">
+                            Multiple environmental indicators
+                            indicate elevated landslide probability.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="indicator-grid">
+
+                    <div class="indicator">
+                        <span>🌧 Rainfall</span>
+                        <strong id="rainfall">220 mm</strong>
+                    </div>
+
+                    <div class="indicator">
+                        <span>💧 Soil Moisture</span>
+                        <strong id="soil">82%</strong>
+                    </div>
+
+                    <div class="indicator">
+                        <span>⛰ Slope</span>
+                        <strong id="slope">38°</strong>
+                    </div>
+
+                    <div class="indicator">
+                        <span>📈 Historical Events</span>
+                        <strong>HIGH</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="risk-message">
+                    <strong>⚠ Immediate attention recommended</strong>
+                    <p>
+                        Prioritize field inspection and prepare
+                        localized warning for exposed communities.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RISK → IMPACT → ACTION ================= -->
+
+        <section class="panel action-panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <span class="section-label">DECISION INTELLIGENCE</span>
+                    <h2>Risk → Impact → Action</h2>
+                </div>
+
+                <span class="prototype-badge">
+                    PROTOTYPE ENGINE
+                </span>
+
+            </div>
+
+
+            <div class="action-flow">
+
+                <!-- RISK -->
+
+                <div class="flow-card risk-card">
+
+                    <div class="flow-number">01</div>
+
+                    <div class="flow-icon">⚠</div>
+
+                    <h3>RISK</h3>
+
+                    <div class="big-number">
+                        84%
+                    </div>
+
+                    <span class="critical-text">
+                        CRITICAL
+                    </span>
+
+                    <p>
+                        Rainfall, soil moisture,
+                        slope and historical
+                        landslide indicators.
+                    </p>
+
+                </div>
+
+
+                <div class="flow-arrow">
+                    →
+                </div>
+
+
+                <!-- IMPACT -->
+
+                <div class="flow-card impact-card">
+
+                    <div class="flow-number">02</div>
+
+                    <div class="flow-icon">⌖</div>
+
+                    <h3>IMPACT</h3>
+
+                    <div class="impact-list">
+
+                        <div>
+                            <strong>02</strong>
+                            <span>Villages</span>
+                        </div>
+
+                        <div>
+                            <strong>01</strong>
+                            <span>Major Road</span>
+                        </div>
+
+                        <div>
+                            <strong>01</strong>
+                            <span>School</span>
+                        </div>
+
+                        <div>
+                            <strong>03</strong>
+                            <span>Infrastructure</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="flow-arrow">
+                    →
+                </div>
+
+
+                <!-- ACTION -->
+
+                <div class="flow-card action-card">
+
+                    <div class="flow-number">03</div>
+
+                    <div class="flow-icon">✓</div>
+
+                    <h3>ACTION</h3>
+
+                    <ul class="action-list">
+
+                        <li>
+                            <span>✓</span>
+                            Issue local warning
+                        </li>
+
+                        <li>
+                            <span>✓</span>
+                            Prioritize field inspection
+                        </li>
+
+                        <li>
+                            <span>✓</span>
+                            Restrict road access if required
+                        </li>
+
+                        <li>
+                            <span>✓</span>
+                            Alert disaster authority
+                        </li>
+
+                    </ul>
+
+                    <button class="primary-button"
+                            onclick="generateAlert()">
+                        GENERATE ALERT
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= BOTTOM GRID ================= -->
+
+        <section class="bottom-grid">
+
+
+            <!-- ALERT CENTER -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="section-label">ALERT CENTER</span>
+                        <h2>Active Alerts</h2>
+                    </div>
+
+                    <span class="alert-count">
+                        03 ACTIVE
+                    </span>
+
+                </div>
+
+
+                <div class="alert-list">
+
+                    <div class="alert-item critical-alert">
+
+                        <div class="alert-indicator"></div>
+
+                        <div class="alert-content">
+
+                            <strong>Dima Hasao</strong>
+
+                            <span>
+                                Critical landslide risk detected
+                            </span>
+
+                            <small>
+                                4 minutes ago
+                            </small>
+
+                        </div>
+
+                        <span class="alert-level">
+                            CRITICAL
+                        </span>
+
+                    </div>
+
+
+                    <div class="alert-item high-alert">
+
+                        <div class="alert-indicator"></div>
+
+                        <div class="alert-content">
+
+                            <strong>East Khasi Hills</strong>
+
+                            <span>
+                                High rainfall threshold exceeded
+                            </span>
+
+                            <small>
+                                18 minutes ago
+                            </small>
+
+                        </div>
+
+                        <span class="alert-level">
+                            HIGH
+                        </span>
+
+                    </div>
+
+
+                    <div class="alert-item high-alert">
+
+                        <div class="alert-indicator"></div>
+
+                        <div class="alert-content">
+
+                            <strong>Nagaland Hills</strong>
+
+                            <span>
+                                Increasing soil moisture detected
+                            </span>
+
+                            <small>
+                                32 minutes ago
+                            </small>
+
+                        </div>
+
+                        <span class="alert-level">
+                            HIGH
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FIELD PRIORITY -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="section-label">FIELD RESPONSE</span>
+                        <h2>Inspection Priority</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="priority-table">
+
+                    <div class="priority-row table-head">
+
+                        <span>ZONE</span>
+                        <span>RISK</span>
+                        <span>EXPOSURE</span>
+                        <span>ACTION</span>
+
+                    </div>
+
+
+                    <div class="priority-row">
+
+                        <strong>Dima Hasao</strong>
+
+                        <span class="risk-pill critical-pill">
+                            84%
+                        </span>
+
+                        <span>
+                            2 villages
+                        </span>
+
+                        <button>
+                            Inspect
+                        </button>
+
+                    </div>
+
+
+                    <div class="priority-row">
+
+                        <strong>East Khasi</strong>
+
+                        <span class="risk-pill high-pill">
+                            72%
+                        </span>
+
+                        <span>
+                            5 villages
+                        </span>
+
+                        <button>
+                            Inspect
+                        </button>
+
+                    </div>
+
+
+                    <div class="priority-row">
+
+                        <strong>Nagaland</strong>
+
+                        <span class="risk-pill high-pill">
+                            67%
+                        </span>
+
+                        <span>
+                            3 villages
+                        </span>
+
+                        <button>
+                            Inspect
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <span>
+                CodeNova • AI-Based Early Warning & Landslide Risk Monitoring
+            </span>
+
+            <span>
+                Prototype Risk Engine • For Demonstration
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <!-- Our JavaScript -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+</html>
